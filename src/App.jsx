@@ -76,7 +76,10 @@ function App() {
             <div key={index} className='chara_box'>
               <img src={item.image} alt={item.name} />
               <div className='chara_info'>
-                <div className={item.status}></div>
+                <span className='status__info'>
+                  <span className={item.status}></span>
+                  {item.status} - {item.species}
+                </span>
                 <h1>Name: {item.name}</h1>
                 <h1>Status: {item.status} </h1>
                 <h2>Gender: {item.gender}</h2>
