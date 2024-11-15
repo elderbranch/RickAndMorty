@@ -9,7 +9,7 @@ function App() {
   const [genderFilter, setGenderFilter] = useState('');
   const [aliveStatus, setAliveStatus]= useState('')
 
-  const visibleItems = 12;
+  const visibleItems = 20;
 
   useEffect(() => {
     const getData = async () => {
@@ -27,12 +27,11 @@ function App() {
         const responseJson = await response.json();
         setData(responseJson.results || []);
       } catch (error) {
+        console.log(error.message)
         throw new Error('Something went wrong')
       } finally {
         if (response.ok) {
           setIsLoading(false);
-        } else {
-          console.error('Response was not successful or undefined');
         }
       }
     };
@@ -40,20 +39,34 @@ function App() {
     getData();
   }, [curnPage, genderFilter, aliveStatus]);
 
+  const pages = Array.from({ length: 42 }, (_, i) => i + 1);
+
   return (
     <>
       <div className='Nav_block'>
         <button onClick={() => setCurnPage(page => Math.max(1, page - 1))}>Загрузить предыдущую страницу</button>
-        <p>Страница номер {curnPage}</p>
+        <p>
+        Страница номер
+        <select
+          value={curnPage}
+          onChange={(e) => setCurnPage(Number(e.target.value))}
+        >
+          {pages.map((page) => (
+            <option key={page} value={page}>
+              {page}
+            </option>
+          ))}
+        </select>
+      </p>
         <button onClick={() => setCurnPage(page => Math.min(42, page + 1))}>Загрузить новую страницу</button>
       </div>
       <div className="filter">
         <label>Фильтровать по полу:</label>
         <select onChange={e => setGenderFilter(e.target.value)} value={genderFilter}>
           <option value="">Все</option>
-          <option value="Male">Мужской</option>
-          <option value="Female">Женский</option>
-          <option value="Genderless">Без пола</option>
+          <option value="male">Мужской</option>
+          <option value="female">Женский</option>
+          <option value="genderless">Без пола</option>
           <option value="unknown">Неизвестно</option>
         </select>
       </div>
@@ -61,8 +74,8 @@ function App() {
         <label>Фильтровать по статусу:</label>
         <select onChange={e => setAliveStatus(e.target.value)} value={aliveStatus}>
           <option value="">Все</option>
-          <option value="Alive">Жив</option>
-          <option value="Dead">Мертв</option>
+          <option value="alive">Жив</option>
+          <option value="dead">Мертв</option>
           <option value="unknown">Неизвестно</option>
         </select>
       </div>

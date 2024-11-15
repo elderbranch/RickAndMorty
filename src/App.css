@@ -11,6 +11,7 @@
   justify-items: center;
   gap: 40px;
   grid-template-rows: auto;
+  margin-bottom: 100px;
 }
 
 .Nav_block {
@@ -23,7 +24,7 @@
 .chara_box {
   background-color: rgb(16, 14, 14);
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 10px;
   max-width: 300px;
   width: 100%;
 }
@@ -41,6 +42,10 @@ select {
   font-family: inherit;
   background-color: #1a1a1a;
   margin: 10px auto;
+}
+
+input {
+  width: 18px;
 }
 
 .status__info {
@@ -74,6 +79,7 @@ option {
 }
 
 img {
+  width: 300px;
   object-fit: cover;
 }
 
