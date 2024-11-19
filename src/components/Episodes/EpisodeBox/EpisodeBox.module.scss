@@ -1,0 +1,36 @@
+.episodeBox {
+  max-width: 210px;
+  width: 100%;
+  line-height: 21px;
+  padding: 25px 10px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, .24);
+}
+
+.episode {
+  opacity: 0.5;
+
+}
+
+.title {
+  color: var(--black-high-emphasis, rgba(0, 0, 0, .87));
+  text-align: center;
+  font-family: Karla, sans-serif;
+  font-size: 21px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 30px;
+  letter-spacing: .15px;
+}
+
+.date {
+  font-weight: 700;
+  opacity: 0.6;
+}
+
+
+

@@ -1,0 +1,12 @@
+#root {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.cont {
+  max-width: 996px;
+  padding: 0 15px;
+  /* width: 100%; */
+  margin: 0 auto;
+}
