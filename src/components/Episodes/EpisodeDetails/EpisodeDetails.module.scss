@@ -1,0 +1,50 @@
+.cont {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 15px;
+  margin-bottom: 100px;
+  margin-top: 90px;
+}
+.episode {
+  letter-spacing: 0.15px;
+  &__name {
+    font-family: Karla, sans-serif;
+    font-size: 32px;
+    padding-bottom: 24px;
+    font-weight: 500;
+    margin: 0 auto;
+    display: table;
+  }
+
+  &__info_cont {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 64px;
+  }
+
+  &__info,
+  &__date {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    & span {
+      line-height: 1;
+      color: #8e8e93;
+      font-weight: 400;
+      font-size: 14px;
+      letter-spacing: 0.25px;
+    }
+  }
+}
+
+.char__subtitle {
+  color: #8e8e93;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 24px;
+  margin-bottom: 24px;
+}
+
+

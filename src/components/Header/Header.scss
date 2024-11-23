@@ -1,9 +1,76 @@
-.header {
-  width: 100%;
-  z-index: 1000;
-  height: 70px;
+.burger__menu {
+  display: none;
+  position: fixed;
+  top: 5%;
+  right: 5%;
+  z-index: 2001;
+  flex-direction: column;
+
+  & span {
+    display: block;
+    height: 6px;
+    width: 35px;
+    background-color: #000;
+    border-radius: 3px;
+    &:nth-child(1) {
+      margin-bottom: 5px;
+      transition: all 0.3s ease;
+    }
+    &:nth-child(2) {
+      margin-bottom: 5px;
+      transition: all 0.3s ease;
+    }
+    &:nth-child(3) {
+      transition: all 0.3s ease;
+    }
+  }
+
+  &.rotated {
+    & span {
+      &:nth-child(1) {
+        transition: all 0.3s ease;
+        transform: rotate(45deg);
+      }
+      &:nth-child(2) {
+        background-color: transparent;
+        margin-bottom: 5px;
+        transform: translate(50%);
+        transition: all 0.3s ease;
+      }
+      &:nth-child(3) {
+        transform: rotate(45deg);
+        margin-bottom: 5px;
+        transition: all 0.3s ease;
+      }
+    }
+  }
+}
+
+.layout {
+  display: none;
+  position: fixed;
   top: 0;
   left: 0;
+  width: 25%;
+  height: 100vh;
+  background-color: transparent;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+.layout.closed {
+  transition: all 0.3s ease;
+}
+.layout.open {
+  display: block;
+  transition: all 0.3s ease;
+}
+
+.header {
+  width: 100%;
+  z-index: 2000;
+  height: 70px;
+  top: 0;
+  right: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,31 +79,96 @@
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   box-shadow: -2px 0 8px 2px rgba(0, 0, 0, 0.1);
+
   &__container {
     max-width: 1024px;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 15px;
   }
 }
+
 .nav__container {
   display: flex;
   list-style: none;
-  display: flex;
+  justify-content: center;
   font-size: 20px;
 
-  & a {
+  li {
+    margin-right: 8%;
+  }
+
+  a {
     text-decoration: none;
     line-height: normal;
     font-style: normal;
     font-weight: 700;
-    font-family: Karla, sans-serif;
+    font-family: "Karla", sans-serif;
     color: #000;
-    margin-right: 8%;
 
     &:hover {
       color: #078a2f;
+    }
+  }
+}
+
+// Адаптация для планшетов
+@media (max-width: 768px) {
+  .nav__container {
+    font-size: 18px;
+    li {
+      margin-right: 5%;
+    }
+  }
+}
+@media (max-width: 480px) {
+  .burger__menu {
+    display: flex;
+  }
+  .header.closed {
+    height: 100vh;
+    width: 75%;
+    transform: translate(100%);
+    transition: all 0.3s ease;
+    transition: all 0.3s ease;
+  }
+  .header.open {
+    height: 100vh;
+    width: 75%;
+    transition: all 0.3s ease;
+  }
+
+  .header__container {
+    flex-direction: column;
+    align-items: center;
+    height: 70vh;
+    justify-content: space-around;
+    & > div {
+      display: none;
+    }
+  }
+
+  .nav__container {
+    flex-direction: column;
+    align-items: center;
+    font-size: 30px;
+    li {
+      margin: 5px 0;
+    }
+  }
+}
+
+// Адаптация для очень широких экранов
+@media (min-width: 1200px) {
+  .header {
+    height: 80px;
+  }
+  .nav__container {
+    font-size: 22px;
+    li {
+      margin-right: 10%;
     }
   }
 }

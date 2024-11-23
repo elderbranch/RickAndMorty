@@ -1,19 +1,9 @@
-
 .cont__logo {
   width: 539px;
   margin: 9% auto 1%;
   & img {
-    width: 539px;
+    width: 100%;
   }
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-flow: dense;
-  justify-items: center;
-  gap: 20px;
-  grid-template-rows: auto;
 }
 
 .Nav_block {
@@ -28,7 +18,6 @@
   display: flex;
   justify-content: space-between;
 }
-
 
 .Alive,
 .Dead,
@@ -47,7 +36,7 @@
 }
 
 .unknown {
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 select,
@@ -57,33 +46,23 @@ option {
 }
 
 img {
-  width: 100%;
   object-fit: cover;
+  object-position: center;
+  width: 100%;
+  /* height: 100%; */
 }
 
-@media (max-width: 1000px) {
-  .grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-@media (max-width: 700px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 490px) {
-  .grid {
-    grid-template-columns: repeat(1, 1fr);
-  }
-}
+
 
 .pagination {
   display: flex;
+  margin-top: 30px;
+  margin-bottom: 30px;
   margin: 0 auto;
   justify-content: center;
   align-items: center;
 }
 
-
-
-
+.ant-pagination {
+  margin: 40px;
+}

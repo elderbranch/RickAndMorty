@@ -1,34 +1,85 @@
+import { Input, Select } from 'antd';
 import s from './FilterCharacters.module.scss'
+import { SearchOutlined } from '@ant-design/icons';
 
-const FilterCharacters = ({ setAliveStatus, setGenderFilter, genderFilter, aliveStatus, species, setSpecies, setCharName, charName }) => {
+const FilterCharacters = ({ setAliveStatus, setGenderFilter, setSpecies, setCharName, }) => {
 
   return (
     <div className={s.filter__cont}>
-      <div className={s.filter}><input onChange={(e) => setCharName(e.target.value)} type={s.filter} placeholder='Name' value={charName} /></div>
-      <div className={s.filter}>
-        <select onChange={e => setSpecies(e.target.value)} value={species}>
-          <option value="">All Species</option>
-          <option value="Human">Human</option>
-          <option value="Alien">Alien</option>
-        </select>
-      </div>
-      <div className={s.filter}>
-        <select onChange={e => setGenderFilter(e.target.value)} value={genderFilter}>
-          <option value="">All Genders</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="genderless">Genderless</option>
-          <option value="unknown">Unknown</option>
-        </select>
-      </div>
-      <div className={s.filter}>
-        <select onChange={e => setAliveStatus(e.target.value)} value={aliveStatus}>
-          <option value="">All Status</option>
-          <option value="alive">Alive</option>
-          <option value="dead">Dead</option>
-          <option value="unknown">Unknown</option>
-        </select>
-      </div>
+      <Input
+        className={s.filter}
+        placeholder='Name'
+        onChange={(e) => setCharName(e.target.value)}
+        prefix={<SearchOutlined />}
+        style={{
+          height: 56,
+        }}
+
+      />
+      <Select onChange={setSpecies}
+        className={s.filter}
+        defaultValue=''
+        style={{
+          height: 56,
+        }}
+        options={[{
+          value: '',
+          label: 'All Species',
+        }, {
+          value: 'Human',
+          label: 'Human',
+        },
+        {
+          value: 'Alien',
+          label: 'Alien',
+        },
+        ]}
+      />
+      <Select onChange={setGenderFilter}
+        className={s.filter}
+        defaultValue=''
+        style={{
+          height: 56,
+        }}
+        options={[{
+          value: '',
+          label: 'All Genders',
+        }, {
+          value: 'male',
+          label: 'Male',
+        }, {
+          value: 'female',
+          label: 'Female',
+        }, {
+          value: 'genderless',
+          label: 'Genderless',
+        }, {
+          value: 'unknown',
+          label: 'Unknown',
+        },
+        ]}
+      />
+      <Select onChange={setAliveStatus}
+        className={s.filter}
+
+        defaultValue=''
+        style={{
+          height: 56,
+        }}
+        options={[{
+          value: '',
+          label: 'All status',
+        }, {
+          value: 'alive',
+          label: 'Alive',
+        }, {
+          value: 'dead',
+          label: 'Dead',
+        }, {
+          value: 'unknown',
+          label: 'Unknown',
+        },
+        ]} />
     </div>
   )
 }

@@ -14,6 +14,7 @@ const FilterByInput = ({setFuction, value, placeholder}) => {
       searchCont.current.classList.remove('focused');
     }
   };
+  
   return (
     <div className="episode__filter_cont" ref={searchCont}>
       <div className="search__icon" ></div>

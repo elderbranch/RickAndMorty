@@ -7,24 +7,30 @@ import CharList from './components/Characters/CharList/CharList';
 import ChartDetails from "./components/Characters/CharDetails/CharDetailce";
 import EpisodeList from "./components/Episodes/EpisodesList/EpisodeList";
 import { EpisodeProvider } from "./components/Context/EpisodesContext";
-import Error404 from "./components/Error404";
+import Big404 from "./components/Big404";
+import EpisodeDetails from "./components/Episodes/EpisodeDetails/EpisodeDetails";
+import { LocationProvider } from "./components/Context/LocationContext";
+import LocaionList from "./components/Locations/LocationList/LocaionList";
+import LocationDetails from "./components/Locations/LocationDetails/LocationDetails";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
-    <CharacterProvider>
-      <EpisodeProvider>
-        <BrowserRouter>
-          <Header />
-          <Routes>
-            <Route path={'*'} element={<Error404 />} />
-            <Route path='/characters' element={<CharList />} />
-            <Route path="/character/:id" element={<ChartDetails />} />
-            <Route path='/episodes' element={<EpisodeList />} />
-          </Routes>
-        </BrowserRouter>
-      </EpisodeProvider>
-    </CharacterProvider>
-
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path={'*'} element={<Big404 />} />
+        <Route path='/characters' element={<CharacterProvider><CharList /></CharacterProvider>} />
+        <Route path="/character/:id" element={<ChartDetails />} />
+        <Route path='/episodes' element={<EpisodeProvider><EpisodeList /></EpisodeProvider>} />
+        <Route path='/episode/:id' element={<EpisodeDetails />} />
+        <Route path='/locations' element={<LocationProvider><LocaionList /></LocationProvider>} />
+        <Route path='/location/:id' element={<LocationDetails />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

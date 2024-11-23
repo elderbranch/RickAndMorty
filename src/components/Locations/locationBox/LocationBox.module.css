@@ -1,4 +1,4 @@
-.chara_box {
+.location_box {
   overflow: hidden;
   color: black;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .14), 0 3px 4px 0 rgba(0, 0, 0, .12), 0 1px 5px 0 rgba(0, 0, 0, .2);
@@ -11,7 +11,7 @@
   }
 }
 
-.chara_info {
+.location_info {
   padding: 12px 16px;
   
 }
@@ -23,12 +23,9 @@
   
 }
 
-.status_info {
+.location_info {
   color: rgba(0, 0, 0, .6);
   font-size: 15px;
   letter-spacing: .25px;
   
 }
-
-
-

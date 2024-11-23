@@ -1,4 +1,11 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
+import create from "zustand";
+
+const useBearStore = create((set) => ({
+  bears: 0,
+  increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
+  removeAllBears: () => set({ bears: 0 }),
+}))
 
 const CharacterContext = createContext();
 export const useChar = () => useContext(CharacterContext);
@@ -6,41 +13,48 @@ export const useChar = () => useContext(CharacterContext);
 export const CharacterProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [curnPage, setCurnPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
-  const [haventFound, setHaventFound] = useState(false);
   const [genderFilter, setGenderFilter] = useState('');
   const [aliveStatus, setAliveStatus] = useState('');
   const [charName, setCharName] = useState('');
   const [species, setSpecies] = useState('');
+  const [totalPages, setTotalPage] = useState(42);
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [haventFound, setHaventFound] = useState(false);
   const [error404, setError404] = useState(false)
+  
+  useEffect(() => {
+    setCurnPage(1);
+    window.scrollTo(0, 0);
+  }, [genderFilter, aliveStatus, species, charName]);
 
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true);
+      
       const queryParams = new URLSearchParams({
-        page: curnPage,
+        ...(curnPage && { page: curnPage, }),
         ...(genderFilter && { gender: genderFilter }),
         ...(aliveStatus && { status: aliveStatus }),
         ...(species && { species: species }),
         ...(charName && { name: charName }),
       });
-
       console.log(queryParams.toString());
-      let response = '';
       try {
-        response = await fetch(`https://rickandmortyapi.com/api/character/?${queryParams}`);
+        const response = await fetch(`https://rickandmortyapi.com/api/character/?${queryParams}`);
         const responseJson = await response.json();
+        console.log(responseJson);
         setData(responseJson.results || []);
-        console.log(data)
+        setTotalPage(responseJson.info.pages || []);
+        setError404(false);
       } catch (error) {
-        // setError404(true);
-        throw new Error('Something went wrong');
+        setError404(true)
+        console.error('Something went wrong:', error);
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
     };
-
+  
     getData();
   }, [curnPage, genderFilter, aliveStatus, species, charName]);
 
@@ -63,6 +77,7 @@ export const CharacterProvider = ({ children }) => {
         haventFound,
         setError404,
         error404,
+        totalPages
       }}
     >
       {children}

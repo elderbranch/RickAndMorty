@@ -1,14 +1,14 @@
-import React, { useState } from "react";
 import SkeletonCardItem from "../../Skeleton/SkeletonCardItem";
 import "./CharList.css";
 import FilterCharacters from "../../FilterCharacters/FilterCharacters";
 import CharBox from "../CharBox/CharBox";
 import Logo from "../../../assets/Logo.png";
 import { useChar } from "../../Context/CharContext";
-import { useEpisode } from "../../Context/EpisodesContext";
 import Error404 from "../../Error404";
 
 import { Pagination } from "antd";
+import Loading from "../../Loading";
+import { useEffect } from "react";
 
 const CharList = () => {
   const visibleItems = 8;
@@ -16,26 +16,26 @@ const CharList = () => {
   const {
     data: charList,
     isLoading,
-    genderFilter,
     setGenderFilter,
-    aliveStatus,
     setAliveStatus,
-    species,
     setSpecies,
-    charName,
     setCharName,
     error404,
-    setError404,
     curnPage,
-    setCurnPage
+    setCurnPage,
+    totalPages
   } = useChar();
 
-  console.log(charList)
+  // useEffect(() => {
+  //   window.location.href = 
+  // },[])
 
-  const episodes = useEpisode();
-  console.log(episodes);
+  
 
-  console.log(error404)
+  if (!charList) {
+    return <Loading/>;
+  }
+
 
   return (
     <div className="cont">
@@ -47,10 +47,6 @@ const CharList = () => {
         setAliveStatus={setAliveStatus}
         setSpecies={setSpecies}
         setCharName={setCharName}
-        aliveStatus={aliveStatus}
-        genderFilter={genderFilter}
-        species={species}
-        charName={charName}
       />
       <div className="grid">
         {isLoading ? (
@@ -71,7 +67,7 @@ const CharList = () => {
         )}
       </div>
       {error404 && <Error404 />}
-      <Pagination onChange={setCurnPage} total={42 * 10} className="pagination" showSizeChanger={false}/>
+      <Pagination onChange={setCurnPage} current={curnPage} total={totalPages * 10} className="pagination" showSizeChanger={false}/>
     </div>
   );
 };

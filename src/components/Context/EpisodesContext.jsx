@@ -1,17 +1,23 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 
-const episoderContext = createContext();
-export const useEpisode = () => useContext(episoderContext);
+const EpisoderContext = createContext();
+export const useEpisode = () => useContext(EpisoderContext);
 
 export const EpisodeProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [episodeName, setEpisodeName] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const [curnEpisodePage, setCurnEpisodePage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setCurnEpisodePage(1);
+    window.scrollTo(0, 0);
+  }, [ episodeName, curnEpisodePage, ]);
+  
 
   useEffect(() => {
     const getData = async () => {
-      setIsLoading(true);
+      setIsLoading(true)
       const queryParams = new URLSearchParams({
         page: curnEpisodePage,
         ...(episodeName && { name: episodeName }),
@@ -25,21 +31,34 @@ export const EpisodeProvider = ({ children }) => {
         } else {
           console.error('Error fetching episodes:', responseJson.error);
         }
+        setTimeout(() => {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+          });
+        }, 400)
       } catch (error) {
         console.error('Error:', error.message);
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
     };
 
     getData();
-  }, [episodeName]);
+  }, [episodeName, curnEpisodePage]);
 
   return (
-    <episoderContext.Provider
-      value={{ data, episodeName, setEpisodeName,curnEpisodePage, setCurnEpisodePage }}
+    <EpisoderContext.Provider
+      value={{
+        data,
+        episodeName,
+        setEpisodeName,
+        curnEpisodePage,
+        setCurnEpisodePage,
+        isLoading
+      }}
     >
       {children}
-    </episoderContext.Provider>
+    </EpisoderContext.Provider>
   );
 };

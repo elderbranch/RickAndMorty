@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom"
 import s from "./CharBox.module.css"
+import Loading from "../../Loading";
 
 const CharBox = ({name, status, image, species, id}) => {
+  if (!id) {
+    return <Loading/>;
+  }
   return (
     <Link to={`/character/${id}`}>
       <div key={id} className={s.chara_box}>

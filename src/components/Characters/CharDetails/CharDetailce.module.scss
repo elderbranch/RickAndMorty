@@ -6,6 +6,13 @@
   margin-bottom: 100px;
 }
 
+.episode__name {
+  line-height: 20px;
+  font-size: 16px !important;
+  color: #6E798C  !important;
+  letter-spacing: .25px;
+}
+
 .img__cont {
   display: flex;
   align-items: center;
@@ -39,12 +46,25 @@
   }
 }
 
+.charInfo__cont {
+  max-width: 413px;
+  width: 100%;
+}
+
+.episodes__cont {
+  width: 100%;
+}
+
 .info__cont_list,
 .episodes__cont_list {
+  width: 95%;
+  max-width: 413px;
   margin-top: 7%;
   margin-left: 16px;
+  margin-bottom: 20px;
   & li {
     padding: 9px 0 12px;
+    max-width: 413px;
     letter-spacing: 0.25px;
     color: black;
     font-size: 17px;
@@ -55,11 +75,11 @@
     font-size: 18px;
     font-style: normal;
     font-weight: 700;
-    line-height: 30px;
+    line-height: 26px;
     letter-spacing: 0.15px;
 
     & span {
-      line-height: 1;
+      line-height: 1; 
       color: #8e8e93;
       font-weight: 400;
       font-size: 15px;
@@ -68,7 +88,27 @@
   }
 }
 
+.episodes__cont_list {
+  overflow-y: scroll;
+  border-top: none;
+  max-height: 345px; 
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  & li {
+    display: flex;
+    justify-content: space-between
+  }
+}
+
+.img {
+  content: url(../../../assets/Episode__arror.svg);
+}
+
+
+
 @media (max-width: 900px) {
 }
-@media (max-width: 450px) {
+@media (max-width: 480px) {
+  .img__cont {
+    margin-top: 40px;
+  }
 }
