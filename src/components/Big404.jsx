@@ -18,4 +18,4 @@ const Big404 = () => {
   )
 }
 
-export default Big404
+export default Big404;

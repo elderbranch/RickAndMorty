@@ -1,11 +1,4 @@
 import { createContext, useState, useEffect, useContext } from "react";
-import create from "zustand";
-
-const useBearStore = create((set) => ({
-  bears: 0,
-  increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
-  removeAllBears: () => set({ bears: 0 }),
-}))
 
 const CharacterContext = createContext();
 export const useChar = () => useContext(CharacterContext);
@@ -31,7 +24,6 @@ export const CharacterProvider = ({ children }) => {
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true);
-      
       const queryParams = new URLSearchParams({
         ...(curnPage && { page: curnPage, }),
         ...(genderFilter && { gender: genderFilter }),
