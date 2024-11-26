@@ -1,7 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import { CharacterProvider } from "./components/Context/CharContext";
-
 import Header from './components/Header/Header';
 import CharList from './components/Characters/CharList/CharList';
 import ChartDetails from "./components/Characters/CharDetails/CharDetailce";
@@ -12,18 +10,14 @@ import EpisodeDetails from "./components/Episodes/EpisodeDetails/EpisodeDetails"
 import { LocationProvider } from "./components/Context/LocationContext";
 import LocaionList from "./components/Locations/LocationList/LocaionList";
 import LocationDetails from "./components/Locations/LocationDetails/LocationDetails";
-import { useEffect } from "react";
 
 function App() {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
   return (
     <BrowserRouter>
       <Header />
       <Routes>
         <Route path={'*'} element={<Big404 />} />
-        <Route path='/characters' element={<CharacterProvider><CharList /></CharacterProvider>} />
+        <Route path='/characters' element={<CharList />} />
         <Route path="/character/:id" element={<ChartDetails />} />
         <Route path='/episodes' element={<EpisodeProvider><EpisodeList /></EpisodeProvider>} />
         <Route path='/episode/:id' element={<EpisodeDetails />} />

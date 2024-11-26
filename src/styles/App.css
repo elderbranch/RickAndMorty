@@ -25,7 +25,6 @@
   font-weight: 700;
   line-height: 21px;
   font-family: Karla, sans-serif;
-  /* float: left; */
   &::before {
     content: url(../assets/arrow_back_24px.svg);
     width: 16px;

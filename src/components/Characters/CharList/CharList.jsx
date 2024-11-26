@@ -1,38 +1,75 @@
-import SkeletonCardItem from "../../Skeleton/SkeletonCardItem";
 import "./CharList.css";
 import FilterCharacters from "../../FilterCharacters/FilterCharacters";
 import CharBox from "../CharBox/CharBox";
 import Logo from "../../../assets/Logo.png";
-import { useChar } from "../../Context/CharContext";
 import Error404 from "../../Error404";
 
 import { Pagination } from "antd";
 import Loading from "../../Loading";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { instance } from "../../../Api/instance";
 
 const CharList = () => {
-  const visibleItems = 8;
+  const [characters, setCharacters] = useState([]);
+  const [totalPages, setTotalPage] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [queryParams, setQueryParams] = useState({
+    page: '',
+    gender: '',
+    status: '',
+    name: '',
+    species: '',
+  });
 
-  const {
-    data: charList,
-    isLoading,
-    setGenderFilter,
-    setAliveStatus,
-    setSpecies,
-    setCharName,
-    error404,
-    curnPage,
-    setCurnPage,
-    totalPages
-  } = useChar();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error404, setError404] = useState(false);
 
-  // useEffect(() => {
-  //   window.location.href = 
-  // },[])
-
+  const updateFilters = (newFilters) => {
+    const updatedFilters = { ...queryParams, ...newFilters };
+    setQueryParams(updatedFilters);
   
+    const filteredFilters = Object.fromEntries(
+      Object.entries(updatedFilters).filter(([_, value]) => value)
+    );
+  
+    const newSearchParams = new URLSearchParams(filteredFilters);
+    setSearchParams(newSearchParams, { replace: true });
+  };
 
-  if (!charList) {
+  useEffect(() => {
+    const newQueryParams = {};
+    searchParams.forEach((value, key) => {
+      newQueryParams[key] = value || '';
+    });
+    setQueryParams((prev) => ({ ...prev, ...newQueryParams }));
+  }, [searchParams]);
+
+  useEffect(() => {
+    const getData = async () => {
+      setIsLoading(true);
+      setError404(false);
+      try {
+        const response = await instance.get(`/character`, {params: queryParams});
+        if (response.status !== 200) throw new Error(`HTTP error! Status: ${response.status}`);
+        setCharacters(response.data.results || []);
+        setTotalPage(response.data.info?.pages || 0);
+        console.log(response)
+        
+      } catch (error) {
+        setError404(true);
+        setCharacters([]);
+        setTotalPage(1);
+        console.error('Something went wrong:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getData();
+  }, [queryParams]);
+
+  if (!characters) {
     return <Loading/>;
   }
 
@@ -43,18 +80,13 @@ const CharList = () => {
         <img src={Logo} alt="Logo" />
       </div>
       <FilterCharacters
-        setGenderFilter={setGenderFilter}
-        setAliveStatus={setAliveStatus}
-        setSpecies={setSpecies}
-        setCharName={setCharName}
+        updateFilters={updateFilters}
+        queryParams={queryParams}
       />
+        {isLoading && <Loading/>}
       <div className="grid">
-        {isLoading ? (
-          Array.from({ length: visibleItems }).map((_, index) => (
-            <SkeletonCardItem key={index} />
-          ))
-        ) : (
-          charList.map((item) => (
+        {
+          characters.map((item) => (
             <CharBox
               key={item.id}
               id={item.id}
@@ -64,10 +96,10 @@ const CharList = () => {
               species={item.species}
             />
           ))
-        )}
+        }
       </div>
       {error404 && <Error404 />}
-      <Pagination onChange={setCurnPage} current={curnPage} total={totalPages * 10} className="pagination" showSizeChanger={false}/>
+      <Pagination onChange={(value) => updateFilters({page: value})} current={queryParams.page} total={totalPages * 10} className="pagination" showSizeChanger={false}/>
     </div>
   );
 };

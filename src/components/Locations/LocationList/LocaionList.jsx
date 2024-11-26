@@ -36,6 +36,7 @@ const LocaionList = () => {
               name={item.name}
               episode={item.type}
               date={item.dimension}
+              key={item.id}
             />
           ))
         )}

@@ -2,22 +2,24 @@ import { Input, Select } from 'antd';
 import s from './FilterCharacters.module.scss'
 import { SearchOutlined } from '@ant-design/icons';
 
-const FilterCharacters = ({ setAliveStatus, setGenderFilter, setSpecies, setCharName, }) => {
+const FilterCharacters = ({ updateFilters, queryParams }) => {
 
   return (
     <div className={s.filter__cont}>
       <Input
         className={s.filter}
         placeholder='Name'
-        onChange={(e) => setCharName(e.target.value)}
+        onInput={(event) => updateFilters({name: event.target.value, page: 1})}
+        value={queryParams.name? queryParams.name : ""}  
         prefix={<SearchOutlined />}
         style={{
           height: 56,
         }}
 
       />
-      <Select onChange={setSpecies}
+      <Select onChange={(value) => updateFilters({species: value, page: 1})}
         className={s.filter}
+        value={queryParams.species? queryParams.species : ""}
         defaultValue=''
         style={{
           height: 56,
@@ -35,8 +37,9 @@ const FilterCharacters = ({ setAliveStatus, setGenderFilter, setSpecies, setChar
         },
         ]}
       />
-      <Select onChange={setGenderFilter}
+      <Select onChange={(value) => updateFilters({gender: value, page: 1})}
         className={s.filter}
+        value={queryParams.gender? queryParams.gender : ""}  
         defaultValue=''
         style={{
           height: 56,
@@ -59,9 +62,9 @@ const FilterCharacters = ({ setAliveStatus, setGenderFilter, setSpecies, setChar
         },
         ]}
       />
-      <Select onChange={setAliveStatus}
+      <Select onChange={(value) => updateFilters({status: value, page: 1})}
         className={s.filter}
-
+        value={queryParams.status? queryParams.status : ""}  
         defaultValue=''
         style={{
           height: 56,
