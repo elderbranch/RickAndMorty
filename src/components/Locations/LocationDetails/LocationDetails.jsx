@@ -3,22 +3,24 @@ import { useEffect, useState } from "react";
 import s from "../../Episodes/EpisodeDetails/EpisodeDetails.module.scss";
 import CharBox from "../../Characters/CharBox/CharBox";
 import Loading from "../../Loading";
+import { instance } from "../../../services/ApiServices";
+import Error404 from "../../Error404";
 
 const LocationDetails = () => {
   const [location, setLocation] = useState(null);
   const [characters, setCharacters] = useState([]);
   const { id } = useParams();
 
+  const [error, setError] = useState(false);
+
   useEffect(() => {
     const getData = async () => {
+      setError(false)
       try {
-        const res = await fetch(`https://rickandmortyapi.com/api/location/${id}`);
-        const locationJson = await res.json();
-        setLocation(locationJson);
-        console.log(locationJson);
-
+        const responce = await instance.get(`/location/${id}`);
+        setLocation(responce.data);
         const fetchedCharacters = await Promise.all(
-          locationJson.residents.map((url) =>
+          responce.data.residents.map((url) =>
             fetch(url).then((res) => res.json())
           )
         );
@@ -27,6 +29,8 @@ const LocationDetails = () => {
         setCharacters(fetchedCharacters);
       } catch (e) {
         console.error("Ошибка при загрузке данных:", e);
+        setLocation([])
+        setError(true)
       }
     };
 
@@ -39,7 +43,7 @@ const LocationDetails = () => {
 
   return (
     <div className='cont'>
-      <h1 className={s.episode__name}>{location.name}</h1>
+  <h1 className={s.episode__name}>{location.name}</h1>
       <div className={s.episode__info_cont}>
         <div className={s.episode__info}>
           <div>Type</div>
@@ -51,6 +55,7 @@ const LocationDetails = () => {
           <span>{location.dimension}</span></span>
       </div>
       <div className={s.char__subtitle}>Residents</div>
+      {error && <Error404/>}
       <div className="grid">
         {characters.map((item) => (
           <CharBox

@@ -8,7 +8,7 @@ import { Pagination } from "antd";
 import Loading from "../../Loading";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { instance } from "../../../Api/instance";
+import { instance } from "../../../services/ApiServices.jsx";
 
 const CharList = () => {
   const [characters, setCharacters] = useState([]);
@@ -23,16 +23,16 @@ const CharList = () => {
   });
 
   const [isLoading, setIsLoading] = useState(true);
-  const [error404, setError404] = useState(false);
+  const [error, setError404] = useState(false);
 
   const updateFilters = (newFilters) => {
     const updatedFilters = { ...queryParams, ...newFilters };
     setQueryParams(updatedFilters);
-  
+
     const filteredFilters = Object.fromEntries(
       Object.entries(updatedFilters).filter(([_, value]) => value)
     );
-  
+
     const newSearchParams = new URLSearchParams(filteredFilters);
     setSearchParams(newSearchParams, { replace: true });
   };
@@ -50,12 +50,11 @@ const CharList = () => {
       setIsLoading(true);
       setError404(false);
       try {
-        const response = await instance.get(`/character`, {params: queryParams});
+        const response = await instance.get(`/character`, { params: queryParams });
         if (response.status !== 200) throw new Error(`HTTP error! Status: ${response.status}`);
         setCharacters(response.data.results || []);
         setTotalPage(response.data.info?.pages || 0);
         console.log(response)
-        
       } catch (error) {
         setError404(true);
         setCharacters([]);
@@ -70,9 +69,8 @@ const CharList = () => {
   }, [queryParams]);
 
   if (!characters) {
-    return <Loading/>;
+    return <Loading />;
   }
-
 
   return (
     <div className="cont">
@@ -83,8 +81,7 @@ const CharList = () => {
         updateFilters={updateFilters}
         queryParams={queryParams}
       />
-        {isLoading && <Loading/>}
-      <div className="grid">
+      {isLoading ? <Loading /> : (<div className="grid">
         {
           characters.map((item) => (
             <CharBox
@@ -97,9 +94,10 @@ const CharList = () => {
             />
           ))
         }
-      </div>
-      {error404 && <Error404 />}
-      <Pagination onChange={(value) => updateFilters({page: value})} current={queryParams.page} total={totalPages * 10} className="pagination" showSizeChanger={false}/>
+      </div>)}
+      
+      {error && <Error404 />}
+      <Pagination onChange={(value) => updateFilters({ page: value })} current={queryParams.page} total={totalPages * 10} className="pagination" showSizeChanger={false} />
     </div>
   );
 };

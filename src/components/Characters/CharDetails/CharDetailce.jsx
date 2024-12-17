@@ -3,30 +3,30 @@ import { useEffect, useState } from 'react';
 
 import styles from './CharDetailce.module.scss'
 import Episode from './Episode';
-import Loading from '../../Loading';
+import { instance } from '../../../services/ApiServices';
+import BtnBack from '../../UI/GoBackBtn';
+import LoadingBig from '../../LoadingBig';
 
 const CharDetails = () => {
   const [char, setChar] = useState();
   const [episodes, setEpisodes] = useState([]);
   const [location, setLocation] = useState();
-  
+
   const { id } = useParams();
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
-        if (!res.ok) throw new Error("Failed to fetch character data");
-
-        const charJson = await res.json();
-        setChar(charJson);
-        console.log(charJson);
+        const res = await instance.get(`/character/${id}`);
+        setChar(res.data);
+        console.log(res);
         const [episodesData, locationData] = await Promise.all([
-          Promise.all(charJson.episode.map((url) => fetch(url).then((res) => res.json()))),
-          fetch(charJson.location.url).then((res) => res.json()),
+          Promise.all(res.data.episode.map((url) => fetch(url).then((res) => res.json()))),
+          fetch(res.data.location.url).then((res) => res.json()),
         ]);
-        
+
         setEpisodes(episodesData);
         setLocation(locationData);
+        console.log(location)
       } catch (e) {
         throw new Error("smth go wrong");
       }
@@ -35,11 +35,12 @@ const CharDetails = () => {
   }, [id])
 
   if (!char) {
-    return <Loading/>;
+    return <LoadingBig />;
   }
 
   return (
     <div className={styles.cont}>
+        <BtnBack />
       <div className={styles.img__cont}><img src={char.image} /></div>
       <h1 className={styles.title}>{char.name}</h1>
       <div className={styles.info__cont}>
@@ -66,10 +67,10 @@ const CharDetails = () => {
               Type <br />
               <span>{char.type ? char.type : 'Unknown'}</span>
             </li>
-            <Link to={`/location/${id}`} style={{
-                  display: 'flex',
-                  justifyContent: 'space-between'
-                }}>
+            <Link to={location ? `/location/${location.id}` : null} style={{
+              display: 'flex',
+              justifyContent: 'space-between'
+            }}>
               <li >
                 Location <br />
                 <span>{char.location.name}</span>
@@ -83,7 +84,7 @@ const CharDetails = () => {
           <div className={styles.episodes__cont_list}>
             {episodes.map((item) => (
               <Episode
-              key={item.id}
+                key={item.id}
                 name={item.name}
                 id={item.id}
                 episode={item.episode}

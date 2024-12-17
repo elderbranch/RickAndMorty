@@ -22,7 +22,7 @@ const FilterByInput = ({setFuction, value, placeholder}) => {
       className="episode__filter" 
       type="text" onFocus={customFocus} 
       onBlur={customBlur} 
-      onChange={e => setFuction(e.target.value)}  
+      onChange={(e) => setFuction({name: e.target.value, page: 1})}  
       value={value} placeholder={placeholder} />
     </div>
   )

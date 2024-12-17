@@ -8,7 +8,6 @@ const Header = () => {
   const menuBtn = useRef(null);
   const header = useRef(null);
 
-
   const toggleMenu = () => {
     if(window.innerWidth > 480) return;
     setIsActive((prev) => !prev);

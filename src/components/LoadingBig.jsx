@@ -1,12 +1,12 @@
 import './Error404.scss'
 
-const Loading = () => {
+const LoadingBig = () => {
   return (
-    <div className='loaderBox'>
+    <div className='loaderBoxBig'>
       <div className='loader'>
       </div>
     </div>
   )
 }
 
-export default Loading
+export default LoadingBig;

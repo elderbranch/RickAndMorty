@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom"
-import "./Error404.scss"
+import "./Error404.scss";
+import Logo from "../assets/404.webp"
+
 
 const Big404 = () => {
   return (
@@ -8,7 +10,7 @@ const Big404 = () => {
       <div className="not__found_subtitle">Page not found</div>
       <div className="not__found_error">
         <span className="letter">4</span>
-        <img src="https://rick-morty-lime.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F404.282e9c12.webp&w=750&q=75" alt="" />
+        <img src={Logo} alt="" />
         <span className="letter">4</span>
       </div>
       <Link to={'/characters'}>

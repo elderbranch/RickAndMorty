@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import s from "./EpisodeDetails.module.scss";
 import CharBox from "../../Characters/CharBox/CharBox";
 import Loading from "../../Loading";
+import { instance } from "../../../services/ApiServices";
 
 const EpisodeDetails = () => {
   const [episode, setEpisode] = useState(null);
@@ -12,16 +13,13 @@ const EpisodeDetails = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await fetch(`https://rickandmortyapi.com/api/episode/${id}`);
-        const episodeJson = await res.json();
-        setEpisode(episodeJson);
-
+        const res = await instance.get(`/episode/${id}`);
+        setEpisode(res.data);
         const fetchedCharacters = await Promise.all(
-          episodeJson.characters.map((url) =>
+          res.data.characters.map((url) =>
             fetch(url).then((res) => res.json())
           )
         );
-
         setCharacters(fetchedCharacters);
       } catch (e) {
         console.error("Ошибка при загрузке данных:", e);

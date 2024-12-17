@@ -15,7 +15,6 @@ const FilterCharacters = ({ updateFilters, queryParams }) => {
         style={{
           height: 56,
         }}
-
       />
       <Select onChange={(value) => updateFilters({species: value, page: 1})}
         className={s.filter}
